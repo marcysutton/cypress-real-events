@@ -33,6 +33,22 @@ describe("cy.realPress", () => {
     });
   });
 
+  context("Enter key operability", () => {
+    beforeEach(()=> {
+      cy.visit("https://marcy.codes/testing/cypress-real-events");
+    });
+
+    it("Triggers a click on a button with the Enter key", () => {
+      cy.get("[data-cy='test-button']").focus().realPress("Enter");
+      cy.get('#content').contains('[object HTMLButtonElement]: click').should("exist");
+    });
+
+    it("Does not trigger a click event from a non-interactive element", () => {
+      cy.get("[data-cy='test-h4']").focus().realPress("Enter");
+      cy.get('#content').contains('[object HTMLHeadingElement]: click').should("not.exist");
+    });
+  });
+
   context("shortcuts", () => {
     beforeEach(() => {
       cy.visit("https://wangchujiang.com/hotkeys/");
